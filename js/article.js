@@ -75,9 +75,18 @@ function commentHtml(c) {
 }
 
 async function loadArticle() {
-  const res = await (window.Logger?.apiFetch(`${API_URL}/articles/${articleId}`) ?? fetch(`${API_URL}/articles/${articleId}`));
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  console.log('[loadArticle] Starting, articleId:', articleId, 'API_URL:', API_URL);
+  const url = `${API_URL}/articles/${articleId}`;
+  console.log('[loadArticle] Fetching:', url);
+  const res = await (window.Logger?.apiFetch(url) ?? fetch(url));
+  console.log('[loadArticle] Response status:', res.status, 'ok:', res.ok);
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error('[loadArticle] Error response:', errorText);
+    throw new Error(`HTTP ${res.status}: ${errorText}`);
+  }
   const a = await res.json();
+  console.log('[loadArticle] Got article:', a);
 
   els.title.textContent = a.title;
   els.meta.textContent = `Autor: ${a.author} • ${a.created_at || ""}`;

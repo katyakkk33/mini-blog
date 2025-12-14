@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Article Test</title>
+  <style>
+    body { font-family: monospace; padding: 20px; background: #f0f0f0; }
+    pre { background: white; padding: 15px; border: 1px solid #ccc; overflow: auto; }
+    .error { color: red; }
+    .success { color: green; }
+    button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Article.js Debug Test</h1>
+  <button onclick="testAPI()">Test API Call</button>
+  <button onclick="testI18n()">Test i18n</button>
+  <button onclick="clearCache()">Clear & Reload</button>
+  <pre id="output">Click buttons to test...</pre>
+
+  <script src="/js/i18n.js"></script>
+  <script>
+    const output = document.getElementById('output');
+
+    function log(msg, isError = false) {
+      const line = document.createElement('div');
+      line.className = isError ? 'error' : 'success';
+      line.textContent = msg;
+      output.appendChild(line);
+    }
+
+    function testI18n() {
+      output.innerHTML = '';
+      log('Testing window.i18n...');
+      if (window.i18n) {
+        log(`✓ i18n loaded, current lang: ${window.i18n.getLang()}`);
+        log(`✓ Translation test: ${window.i18n.t('title')}`);
+      } else {
+        log('✗ window.i18n is undefined!', true);
+      }
+    }
+
+    async function testAPI() {
+      output.innerHTML = '';
+      log('Testing API...');
+      
+      const API_URL = (function(){
+        try {
+          const host = location.hostname;
+          if (!host || host === 'localhost' || host === '127.0.0.1') return '/api';
+          return 'https://mini-blog-d103.onrender.com/api';
+        } catch(e){ return '/api'; }
+      })();
+      
+      log(`API_URL determined: ${API_URL}`);
+      
+      try {
+        log('Fetching /api/articles...');
+        const res1 = await fetch(`${API_URL}/articles`);
+        log(`Response status: ${res1.status}`);
+        const articles = await res1.json();
+        log(`✓ Got ${articles.length} articles`);
+        
+        if (articles.length > 0) {
+          const id = articles[0].id;
+          log(`Fetching article ID ${id}...`);
+          const res2 = await fetch(`${API_URL}/articles/${id}`);
+          log(`Response status: ${res2.status}`);
+          const article = await res2.json();
+          log(`✓ Got article: ${article.title}`);
+          log(JSON.stringify(article, null, 2));
+        }
+      } catch (err) {
+        log(`✗ ERROR: ${err.message}`, true);
+      }
+    }
+
+    function clearCache() {
+      if (confirm('Reload page and clear cache?')) {
+        location.reload(true);
+      }
+    }
+
+    log('Page loaded. window.i18n = ' + (window.i18n ? 'OK' : 'undefined'));
+  </script>
+</body>
+</html>
