@@ -13,10 +13,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend static files (frontend/html)
+// Serve frontend static files (backend/frontend/html)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const staticDir = path.join(__dirname, "..", "..", "frontend", "html");
+const staticDir = path.join(__dirname, "..", "frontend", "html");
 app.use(express.static(staticDir));
 
 // Ensure specific HTML routes work with query params (e.g. /article?id=...)
