@@ -1,4 +1,4 @@
-/* frontend/js/article.js (moved + API_URL variable) */
+/* frontend/js/article.js (for GitHub Pages) */
 // API URL for Render production
 const API_URL = 'https://mini-blog-d103.onrender.com/api';
 const qs = new URLSearchParams(location.search);
@@ -123,7 +123,7 @@ els.cForm.addEventListener("submit", async (e) => {
     await loadComments();
   } catch (err) {
     console.error(err);
-    els.status.textContent = err?.message || "Błąd podczas zapisu komentarza.";
+    els.status.textContent = err?.message || "Błяд podczas zapisu komentarza.";
   }
 });
 
@@ -182,7 +182,7 @@ async function boot() {
   window.Logger?.log("article.js LOADED ✅", "URL=", location.href);
 
   if (!articleId) {
-    document.body.innerHTML = "<main><p>Brak parametru id.</p><a href='/'>Wróć</a></main>";
+    document.body.innerHTML = "<main><p>Brak parametru id.</p><a href='/mini-blog/'>Wróć</a></main>";
     window.Logger?.log("NO articleId in URL");
     return;
   }
@@ -192,8 +192,54 @@ async function boot() {
     await loadComments();
   } catch (err) {
     console.error(err);
-    document.body.innerHTML = "<main><p>Błąd. Dodaj ?debug=1 i sprawdź log.</p><a href='/'>Wróć</a></main>";
+    document.body.innerHTML = "<main><p>Błąd. Dodaj ?debug=1 i sprawdź log.</p><a href='/mini-blog/'>Wróć</a></main>";
   }
 }
 
 boot();
+
+// Language switcher
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.dataset.lang;
+    window.i18n.setLang(lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Reload page to apply translations
+    location.reload();
+  });
+  
+  // Set initial active button
+  if (btn.dataset.lang === window.i18n.getLang()) {
+    btn.classList.add('active');
+  }
+});
+
+// Delete comment handler
+els.comments.addEventListener('click', async (e) => {
+  if (!e.target.classList.contains('delete-btn')) return;
+  
+  const card = e.target.closest('.comment');
+  const commentId = card?.dataset?.id;
+  if (!commentId) return;
+  
+  if (!confirm('Usunąć ten komentarz?')) return;
+  
+  try {
+    const res = await fetch(`${API_URL}/comments/${commentId}`, {
+      method: 'DELETE'
+    });
+    
+    if (!res.ok) {
+      throw new Error('Błąd podczas usuwania komentarza');
+    }
+    
+    await loadComments();
+  } catch (err) {
+    console.error(err);
+    alert(err?.message || 'Błąd podczas usuwania komentarza.');
+  }
+});

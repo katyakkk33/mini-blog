@@ -198,3 +198,23 @@ els.form.addEventListener("submit", async (e) => {
 });
 
 loadArticles();
+
+// Language switcher
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.dataset.lang;
+    window.i18n.setLang(lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Reload page to apply translations
+    location.reload();
+  });
+  
+  // Set initial active button
+  if (btn.dataset.lang === window.i18n.getLang()) {
+    btn.classList.add('active');
+  }
+});

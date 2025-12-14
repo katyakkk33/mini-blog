@@ -64,6 +64,26 @@ r.post("/comments/:commentId/replies", (req, res) => {
   ).run(parent.article_id, parentId, author.trim(), content.trim());
 
   res.status(201).json({ id: info.lastInsertRowid });
-});
+  });
 
-export default r;
+  r.delete("/comments/:commentId", (req, res) => {
+    const commentId = Number(req.params.commentId);
+
+    const comment = db.prepare(
+      "SELECT id, parent_comment_id FROM comments WHERE id = ?"
+    ).get(commentId);
+
+    if (!comment) {
+      return res.status(404).json({ error: "comment not found" });
+    }
+
+    // Delete all replies to this comment (if any)
+    db.prepare("DELETE FROM comments WHERE parent_comment_id = ?").run(commentId);
+
+    // Delete the comment itself
+    db.prepare("DELETE FROM comments WHERE id = ?").run(commentId);
+
+    res.json({ success: true });
+  });
+
+  export default r;

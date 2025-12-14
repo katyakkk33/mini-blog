@@ -409,3 +409,122 @@ hr {
     transform: scale(1);
   }
 }
+/*
+Mobile
+Responsive
+Styles
+*/
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  main { 
+    margin: 20px auto 40px; 
+    padding: 0 16px; 
+  }
+  .card { 
+    padding: 16px; 
+  }
+  .row.cols2 { 
+    grid-template-columns: 1fr; 
+  }
+  h1 { 
+    font-size: 24px; 
+  }
+  .button { 
+    padding: 10px 16px; 
+    font-size: 14px; 
+  }
+}
+
+@media (max-width: 480px) {
+  main { 
+    padding: 0 12px; 
+  }
+  .card { 
+    padding: 12px; 
+  }
+  h1 { 
+    font-size: 20px; 
+  }
+  h2 { 
+    font-size: 18px; 
+  }
+  p { 
+    font-size: 14px; 
+  }
+  .button { 
+    padding: 8px 12px; 
+    font-size: 13px; 
+  }
+  textarea, input { 
+    font-size: 16px; 
+  }
+}
+
+/* Language Switcher */
+.lang-switcher {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.lang-btn {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.lang-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.lang-btn:hover {
+  border-color: #007bff;
+}
+
+@media (max-width: 480px) {
+  .lang-switcher {
+    top: 10px;
+    right: 10px;
+    gap: 4px;
+  }
+  .lang-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Delete Button */
+.delete-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: auto;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.comment .actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.comment .muted {
+  margin-left: auto;
+}

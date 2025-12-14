@@ -1,4 +1,4 @@
-/* styles.css (moved to frontend/css/) */
+/* styles.css (for GitHub Pages) */
 :root {
   --bg: #f8f9ff;
   --bg-accent: #eef2ff;
@@ -325,15 +325,10 @@ hr {
 
 .deleting {
   mask-image: linear-gradient(45deg, transparent 50%, black 50.1%);
-
   mask-size: 300% 300%;
-
   mask-position: 100% 100%;
-  
   mask-repeat: no-repeat;
-
   animation: diagonalWipe 1.2s cubic-bezier(0.45, 0, 0.55, 1) forwards;
-
   pointer-events: none;
   overflow: hidden;
   background: var(--card) !important;
@@ -397,4 +392,139 @@ hr {
   transform: scale(0.9);
   animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
   text-align: center;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/*
+Mobile
+Responsive
+Styles
+*/
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  main { 
+    margin: 20px auto 40px; 
+    padding: 0 16px; 
+  }
+  .card { 
+    padding: 16px; 
+  }
+  .row.cols2 { 
+    grid-template-columns: 1fr; 
+  }
+  h1 { 
+    font-size: 24px; 
+  }
+  .button { 
+    padding: 10px 16px; 
+    font-size: 14px; 
+  }
+}
+
+@media (max-width: 480px) {
+  main { 
+    padding: 0 12px; 
+  }
+  .card { 
+    padding: 12px; 
+  }
+  h1 { 
+    font-size: 20px; 
+  }
+  h2 { 
+    font-size: 18px; 
+  }
+  p { 
+    font-size: 14px; 
+  }
+  .button { 
+    padding: 8px 12px; 
+    font-size: 13px; 
+  }
+  textarea, input { 
+    font-size: 16px; 
+  }
+}
+
+/* Language Switcher */
+.lang-switcher {
+  display: flex;
+  gap: 8px;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
+
+.lang-btn {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.lang-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.lang-btn:hover {
+  border-color: #007bff;
+}
+
+@media (max-width: 480px) {
+  .lang-switcher {
+    top: 10px;
+    right: 10px;
+    gap: 4px;
+  }
+  .lang-btn {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+}
+
+/* Delete Button */
+.delete-btn {
+  padding: 4px 8px;
+  font-size: 12px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: auto;
+}
+
+.delete-btn:hover {
+  background: #c82333;
+}
+
+.comment .actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.comment .muted {
+  margin-left: auto;
 }

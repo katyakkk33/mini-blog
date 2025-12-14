@@ -1,4 +1,4 @@
-/* frontend/js/app.js (moved + API_URL variable) */
+/* frontend/js/app.js (for GitHub Pages) */
 // API URL for Render production
 const API_URL = 'https://mini-blog-d103.onrender.com/api';
 
@@ -31,7 +31,7 @@ function escapeHtml(s) {
 }
 
 function articleUrl(id) {
-  return `article?id=${encodeURIComponent(String(id))}`;
+  return `article.html?id=${encodeURIComponent(String(id))}`;
 }
 
 function showModal(id) {
@@ -102,7 +102,7 @@ async function loadArticles() {
 
   } catch (e) {
     console.error(e);
-    els.list.innerHTML = "<p class='muted'>Błąд ладування. Sprаwdź backend.</p>";
+    els.list.innerHTML = "<p class='muted'>Błąd ładowania. Sprawdź backend.</p>";
   }
 }
 
@@ -136,7 +136,7 @@ async function deleteArticle(id, btnElement) {
       await loadArticles();
     }
   } catch (err) {
-    alert(err?.message || "Błąд usuwania");
+    alert(err?.message || "Błąd usuwania");
   }
 }
 
@@ -193,8 +193,28 @@ els.form.addEventListener("submit", async (e) => {
     await loadArticles();
   } catch (err) {
     console.error(err);
-    els.status.textContent = err?.message || "Błąд podczas zapisu.";
+    els.status.textContent = err?.message || "Błąd podczas zapisu.";
   }
 });
 
 loadArticles();
+
+// Language switcher
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.dataset.lang;
+    window.i18n.setLang(lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Reload page to apply translations
+    location.reload();
+  });
+  
+  // Set initial active button
+  if (btn.dataset.lang === window.i18n.getLang()) {
+    btn.classList.add('active');
+  }
+});

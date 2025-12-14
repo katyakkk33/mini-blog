@@ -197,3 +197,49 @@ async function boot() {
 }
 
 boot();
+
+// Language switcher
+document.querySelectorAll('.lang-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const lang = btn.dataset.lang;
+    window.i18n.setLang(lang);
+    
+    // Update active button
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Reload page to apply translations
+    location.reload();
+  });
+  
+  // Set initial active button
+  if (btn.dataset.lang === window.i18n.getLang()) {
+    btn.classList.add('active');
+  }
+});
+
+// Delete comment handler
+els.comments.addEventListener('click', async (e) => {
+  if (!e.target.classList.contains('delete-btn')) return;
+  
+  const card = e.target.closest('.comment');
+  const commentId = card?.dataset?.id;
+  if (!commentId) return;
+  
+  if (!confirm('Usunąć ten komentarz?')) return;
+  
+  try {
+    const res = await fetch(`${API_URL}/comments/${commentId}`, {
+      method: 'DELETE'
+    });
+    
+    if (!res.ok) {
+      throw new Error('Błąd podczas usuwania komentarza');
+    }
+    
+    await loadComments();
+  } catch (err) {
+    console.error(err);
+    alert(err?.message || 'Błąd podczas usuwania komentarza.');
+  }
+});
