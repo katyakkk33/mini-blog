@@ -188,7 +188,7 @@ async function boot() {
   window.Logger?.log("article.js LOADED ✅", "URL=", location.href);
 
   if (!articleId) {
-    document.body.innerHTML = "<main><p>Brak parametru id.</p><a href='/mini-blog/'>Wróć</a></main>";
+    document.body.innerHTML = "<main><p>Brak parametru id.</p><a href='/'>Wróć</a></main>";
     window.Logger?.log("NO articleId in URL");
     return;
   }
@@ -198,7 +198,7 @@ async function boot() {
     await loadComments();
   } catch (err) {
     console.error(err);
-    document.body.innerHTML = "<main><p>Błąd. Dodaj ?debug=1 i sprawdź log.</p><a href='/mini-blog/'>Wróć</a></main>";
+    document.body.innerHTML = "<main><p>Błąd. Dodaj ?debug=1 i sprawdź log.</p><a href='/'>Wróć</a></main>";
   }
 }
 
