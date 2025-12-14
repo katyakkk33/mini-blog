@@ -1,6 +1,11 @@
 @echo off
-echo Closing windows may be enough.
-echo If you need to stop servers:
-echo - close the "mini-blog-backend" window
-echo - close the "mini-blog-frontend" window
+echo ===============================
+echo Mini-blog: Stop
+echo ===============================
+echo.
+echo Close the following windows:
+echo - "mini-blog-backend" (backend server)
+echo.
+echo Note: Just close the terminal windows to stop the servers.
+echo.
 pause

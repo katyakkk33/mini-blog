@@ -21,7 +21,7 @@ if not exist "backend\package.json" (
   exit /b 1
 )
 
-echo [1/4] Installing backend dependencies (only if needed)...
+echo [1/2] Installing backend dependencies (only if needed)...
 pushd backend
 if not exist "node_modules\" (
   call npm install
@@ -36,16 +36,21 @@ if not exist "node_modules\" (
 )
 popd
 
-echo [2/4] Starting backend on http://localhost:3000 ...
+echo [2/2] Starting backend on http://localhost:3000 ...
+echo Frontend static files available in: backend/frontend/
+echo.
 start "mini-blog-backend" cmd /k "cd /d %~dp0backend && npm run dev"
 
-echo [3/4] Starting frontend static server on http://localhost:5173 ...
-start "mini-blog-frontend" cmd /k "cd /d %~dp0 && npx --yes serve frontend -l 5173"
-
-echo [4/4] Done.
-echo Open:
-echo - http://localhost:5173
-echo Debug:
-echo - http://localhost:5173/?debug=1
 echo.
+echo Done. Backend is starting...
+echo.
+echo Access via:
+echo - Render (production): https://mini-blog-d103.onrender.com
+echo - GitHub Pages: https://katyakkk33.github.io/mini-blog/
+echo - Local: http://localhost:3000 (API + static files)
+echo.
+echo Debug:
+echo - http://localhost:3000/?debug=1
+echo.
+pause
 pause
