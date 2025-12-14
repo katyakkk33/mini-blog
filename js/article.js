@@ -1,6 +1,12 @@
 /* frontend/js/article.js (for GitHub Pages) */
-// API URL for Render production
-const API_URL = 'https://mini-blog-d103.onrender.com/api';
+// API URL: prefer local relative `/api` when on localhost
+const API_URL = (function(){
+  try {
+    const host = location.hostname;
+    if (!host || host === 'localhost' || host === '127.0.0.1') return '/api';
+    return 'https://mini-blog-d103.onrender.com/api';
+  } catch(e){ return '/api'; }
+})();
 const qs = new URLSearchParams(location.search);
 const articleId = qs.get("id");
 

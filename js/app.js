@@ -1,6 +1,12 @@
 /* frontend/js/app.js (for GitHub Pages) */
-// API URL for Render production
-const API_URL = 'https://mini-blog-d103.onrender.com/api';
+// API URL: use local relative `/api` when running on localhost, otherwise production
+const API_URL = (function(){
+  try {
+    const host = location.hostname;
+    if (!host || host === 'localhost' || host === '127.0.0.1') return '/api';
+    return 'https://mini-blog-d103.onrender.com/api';
+  } catch(e){ return '/api'; }
+})();
 
 
 const els = {
@@ -199,22 +205,23 @@ els.form.addEventListener("submit", async (e) => {
 
 loadArticles();
 
-// Language switcher
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const lang = btn.dataset.lang;
-    window.i18n.setLang(lang);
+// Language switcher (safe: only if i18n is present)
+if (window.i18n) {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.dataset.lang;
+      window.i18n.setLang(lang);
+      
+      // Update active button
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      // Reload page to apply translations (i18n.setLang already reloads)
+    });
     
-    // Update active button
-    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    
-    // Reload page to apply translations
-    location.reload();
+    // Set initial active button
+    if (btn.dataset.lang === window.i18n.getLang()) {
+      btn.classList.add('active');
+    }
   });
-  
-  // Set initial active button
-  if (btn.dataset.lang === window.i18n.getLang()) {
-    btn.classList.add('active');
-  }
-});
+}

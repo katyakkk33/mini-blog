@@ -466,8 +466,9 @@ Styles
   display: flex;
   gap: 8px;
   position: absolute;
-  top: 16px;
+  top: 72px;
   right: 16px;
+  z-index: 40;
 }
 
 .lang-btn {
@@ -492,7 +493,7 @@ Styles
 
 @media (max-width: 480px) {
   .lang-switcher {
-    top: 10px;
+    top: 12px;
     right: 10px;
     gap: 4px;
   }
