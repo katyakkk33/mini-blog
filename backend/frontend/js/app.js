@@ -8,6 +8,8 @@ const API_URL = (function(){
   } catch(e){ return '/api'; }
 })();
 
+console.log('[app.js] API_URL:', API_URL, 'hostname:', location.hostname);
+
 
 const els = {
   list: document.querySelector("#articles"),

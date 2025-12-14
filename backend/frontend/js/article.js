@@ -7,6 +7,8 @@ const API_URL = (function(){
     return 'https://mini-blog-d103.onrender.com/api';
   } catch(e){ return '/api'; }
 })();
+
+console.log('[article.js] API_URL:', API_URL, 'hostname:', location.hostname);
 const qs = new URLSearchParams(location.search);
 const articleId = qs.get("id");
 
@@ -52,6 +54,7 @@ function commentHtml(c) {
 
       <div class="actions">
         <button class="small" type="button" data-action="toggleReply">Odpowiedz</button>
+        <button class="small delete-btn" type="button" data-id="${c.id}">Usuń</button>
       </div>
 
       <form class="replyForm hidden">
