@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "node src/app.js",
     "start": "node src/app.js",
-    "postinstall": "npm rebuild better-sqlite3 --build-from-source"
+    "postinstall": "node -e \"if (process.platform !== 'win32') { require('child_process').execSync('npm rebuild better-sqlite3 --build-from-source', {stdio: 'inherit'}) }\""
   },
   "dependencies": {
     "better-sqlite3": "^11.0.0",
