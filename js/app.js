@@ -37,7 +37,12 @@ function escapeHtml(s) {
 }
 
 function articleUrl(id) {
-  return `article.html?id=${encodeURIComponent(String(id))}`;
+  // Use /article for localhost, article.html for GitHub Pages
+  const host = location.hostname;
+  const path = (!host || host === 'localhost' || host === '127.0.0.1') 
+    ? '/article' 
+    : 'article.html';
+  return `${path}?id=${encodeURIComponent(String(id))}`;
 }
 
 function showModal(id) {
