@@ -1,0 +1,13 @@
+{
+  "name": "mini-blog-frontend",
+  "version": "1.0.0",
+  "description": "Mini blog frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "npx http-server -p 8080 -c-1 --cors"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {}
+}
