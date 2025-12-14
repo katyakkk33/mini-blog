@@ -216,49 +216,38 @@ async function boot() {
 
 boot();
 
-// Language switcher (safe: only if i18n is present)
-if (window.i18n) {
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const lang = btn.dataset.lang;
-      window.i18n.setLang(lang);
-      
-      // Update active button
-      document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      // Reload page to apply translations (i18n.setLang already reloads)
-    });
-    
-    // Set initial active button
-    if (btn.dataset.lang === window.i18n.getLang()) {
-      btn.classList.add('active');
-    }
-  });
-}
-
-// Delete comment handler
-els.comments.addEventListener('click', async (e) => {
-  if (!e.target.classList.contains('delete-btn')) return;
+// Delete comment handler (delegated to comments container)
+document.addEventListener('click', async (e) => {
+  // Check if clicked element or its parent is delete button
+  const deleteBtn = e.target.closest('.delete-btn');
+  if (!deleteBtn) return;
   
-  const card = e.target.closest('.comment');
-  const commentId = card?.dataset?.id;
-  if (!commentId) return;
+  const commentId = deleteBtn.getAttribute('data-id');
+  console.log('[Delete] Attempting to delete comment ID:', commentId);
   
-  if (!confirm('Usunąć ten komentarz?')) return;
+  if (!commentId) {
+    alert('Nie można znaleźć ID komentarza');
+    return;
+  }
+  
+  if (!confirm('Czy na pewno usunąć ten komentarz?')) return;
   
   try {
-    const res = await fetch(`${API_URL}/comments/${commentId}`, {
-      method: 'DELETE'
-    });
+    const url = `${API_URL}/comments/${commentId}`;
+    console.log('[Delete] Sending DELETE to:', url);
+    
+    const res = await fetch(url, { method: 'DELETE' });
+    console.log('[Delete] Response status:', res.status);
     
     if (!res.ok) {
-      throw new Error('Błąd podczas usuwania komentarza');
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || `HTTP ${res.status}`);
     }
     
+    console.log('[Delete] Success, reloading comments...');
     await loadComments();
   } catch (err) {
-    console.error(err);
-    alert(err?.message || 'Błąd podczas usuwania komentarza.');
+    console.error('[Delete] Error:', err);
+    alert('Błąd podczas usuwania komentarza: ' + err.message);
   }
 });
