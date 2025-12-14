@@ -1,11 +1,12 @@
 @echo off
+cls
 echo ===============================
-echo Mini-blog: Stop
+echo Mini-blog: STOP
 echo ===============================
 echo.
-echo Close the following windows:
-echo - "mini-blog-backend" (backend server)
+echo To stop the servers, close these terminal windows:
+echo   - "mini-blog-backend"
 echo.
-echo Note: Just close the terminal windows to stop the servers.
+echo You can also use Ctrl+C in the terminal window.
 echo.
 pause
