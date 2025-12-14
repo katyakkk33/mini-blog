@@ -1,5 +1,7 @@
 # Mini-blog: artykuły + komentarze + odpowiedzi
 
+**Autorzy:** Kateryna Kotovych, Dmytro Halynovych
+
 Prosta aplikacja webowa (frontend + backend) umożliwiająca:
 - dodawanie artykułów,
 - listę artykułów,
