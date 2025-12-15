@@ -1,11 +1,15 @@
 /* frontend/js/article.js (for GitHub Pages) */
-// API URL: prefer local relative `/api` when on localhost
-const API_URL = (function(){
+// API URL:
+// - GitHub Pages: call Render API
+// - Localhost / Render: same-origin
+const API_URL = (function () {
   try {
     const host = location.hostname;
-    if (!host || host === 'localhost' || host === '127.0.0.1') return '/api';
-    return 'https://mini-blog-d103.onrender.com/api';
-  } catch(e){ return '/api'; }
+    const isGitHubPages = host === 'katyakkk33.github.io';
+    return isGitHubPages ? 'https://mini-blog-d103.onrender.com/api' : '/api';
+  } catch (e) {
+    return '/api';
+  }
 })();
 
 console.log('[article.js] API_URL:', API_URL, 'hostname:', location.hostname);

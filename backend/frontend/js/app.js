@@ -1,11 +1,15 @@
 /* frontend/js/app.js (for GitHub Pages) */
-// API URL: use local relative `/api` when running on localhost, otherwise production
-const API_URL = (function(){
+// API URL:
+// - GitHub Pages: call Render API
+// - Localhost / Render: same-origin
+const API_URL = (function () {
   try {
     const host = location.hostname;
-    if (!host || host === 'localhost' || host === '127.0.0.1') return '/api';
-    return 'https://mini-blog-d103.onrender.com/api';
-  } catch(e){ return '/api'; }
+    const isGitHubPages = host === 'katyakkk33.github.io';
+    return isGitHubPages ? 'https://mini-blog-d103.onrender.com/api' : '/api';
+  } catch (e) {
+    return '/api';
+  }
 })();
 
 console.log('[app.js] API_URL:', API_URL, 'hostname:', location.hostname);
@@ -39,11 +43,11 @@ function escapeHtml(s) {
 }
 
 function articleUrl(id) {
-  // Use /article for localhost, article.html for GitHub Pages
+  // Backend mode (localhost/Render): /article
+  // GitHub Pages: article.html
   const host = location.hostname;
-  const path = (!host || host === 'localhost' || host === '127.0.0.1') 
-    ? '/article' 
-    : 'article.html';
+  const isGitHubPages = host === 'katyakkk33.github.io';
+  const path = isGitHubPages ? 'article.html' : '/article';
   return `${path}?id=${encodeURIComponent(String(id))}`;
 }
 

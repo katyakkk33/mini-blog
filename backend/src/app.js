@@ -19,11 +19,18 @@ const __dirname = path.dirname(__filename);
 const staticDir = path.join(__dirname, "..", "frontend");
 const htmlDir = path.join(staticDir, "html");
 app.use(express.static(staticDir));
+// Alias for GitHub Pages-style paths (some cached HTML may reference /mini-blog/...)
+app.use("/mini-blog", express.static(staticDir));
 
 // Ensure specific HTML routes work with query params (e.g. /article?id=...)
 app.get("/", (req, res) => res.sendFile(path.join(htmlDir, "index.html")));
 app.get("/article", (req, res) => res.sendFile(path.join(htmlDir, "article.html")));
 app.get("/pages", (req, res) => res.sendFile(path.join(htmlDir, "pages.html")));
+
+// Same HTML routes under /mini-blog
+app.get("/mini-blog/", (req, res) => res.sendFile(path.join(htmlDir, "index.html")));
+app.get("/mini-blog/article", (req, res) => res.sendFile(path.join(htmlDir, "article.html")));
+app.get("/mini-blog/pages", (req, res) => res.sendFile(path.join(htmlDir, "pages.html")));
 
 // Request logger
 app.use((req, res, next) => {
