@@ -4,6 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini-blog — Artykuły</title>
+  <script>
+    // Start page: redirect to pages.html, keep app at ?app=1
+    (function () {
+      try {
+        if (location.search && location.search.includes('app=1')) return;
+        const host = location.hostname;
+        const isGitHubPages = host === 'katyakkk33.github.io';
+        const isFile = location.protocol === 'file:';
+        const target = (isGitHubPages || isFile) ? 'pages.html' : '/pages';
+        if (location.pathname.endsWith('pages.html') || location.pathname === '/pages') return;
+        location.replace(target);
+      } catch (_) {}
+    })();
+  </script>
   <link rel="stylesheet" href="/mini-blog/css/styles.css" />
 </head>
 <body>

@@ -4,6 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Mini-blog — Artykuły</title>
+  <script>
+    // Start page: redirect to /pages, keep app at ?app=1
+    (function () {
+      try {
+        if (location.search && location.search.includes('app=1')) return;
+        if (location.pathname === '/pages' || location.pathname.endsWith('/pages.html')) return;
+        location.replace('/pages');
+      } catch (_) {}
+    })();
+  </script>
   <link rel="stylesheet" href="/css/styles.css" />
 </head>
 <body>
