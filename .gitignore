@@ -22,3 +22,7 @@ build/
 # Temp
 *.tmp
 .cache/
+
+# SQLite database (do not commit)
+*.sqlite
+backend/data.sqlite

@@ -1,63 +1,56 @@
-# Mini-blog: artykuły + komentarze + odpowiedzi
+# Mini-blog — artykuły, komentarze i odpowiedzi
 
-**Autorzy:** Kateryna Kotovych, Dmytro Halynovych
+Autorzy: Kateryna Kotovych, Dmytro Halynovych
 
-Prosta aplikacja webowa (frontend + backend) umożliwiająca:
-- dodawanie artykułów,
-- listę artykułów,
-- widok szczegółów artykułu,
+Mini‑blog to prosta aplikacja webowa (frontend + backend), która umożliwia:
+- dodawanie i usuwanie artykułów,
+- wyświetlanie listy oraz szczegółów artykułu,
 - dodawanie komentarzy,
-- dodawanie odpowiedzi na komentarze (1 poziom zagnieżdżenia).
+- dodawanie odpowiedzi na komentarze (1 poziom zagnieżdżenia),
+- usuwanie komentarzy (wraz z odpowiedziami).
 
-## 🚀 Dostęp online
+## Dostęp online
 
-| Platforma | URL |
-|-----------|-----|
-| **Render** (Backend API) | https://mini-blog-d103.onrender.com |
-| **GitHub Pages** | https://katyakkk33.github.io/mini-blog/ |
+- Render (pełna aplikacja + API): https://mini-blog-d103.onrender.com/
+- GitHub Pages (frontend statyczny): https://katyakkk33.github.io/mini-blog/
 
-Obie wersje działają na tym samym Render API, różnica tylko w hostingu frontendu.
+Uwaga: GitHub Pages jest statyczny i komunikuje się z API na Render.
 
-## 🏃 Najszybszy start (Windows - lokalne)
+## Trwałość danych (ważne)
 
-1. Zainstaluj **Node.js LTS**.
-2. Uruchom **`RunAll.bat`** (dwuklik).
+Backend używa SQLite. Na Render dane będą trwałe tylko wtedy, gdy użyjesz persistent disk.
+W przeciwnym razie po redeploy/restarcie instancji artykuły mogą zniknąć (a stare dane „wrócić”).
 
-Skrypt automatycznie:
-- zainstaluje zależności backendu (jeśli trzeba),
-- uruchomi API na `http://localhost:3000`.
+Rekomendacja dla Render:
+- podłącz persistent disk montowany w /var/data
+- (opcjonalnie) ustaw DB_PATH=/var/data/data.sqlite
 
-Frontend jest wtedy dostępny na `http://localhost:3000` (serwer obsługuje zarówno API jak i statyczne pliki).
+## Uruchomienie lokalne (Windows)
 
-## 📁 Struktura projektu
+Najszybciej:
+1. Zainstaluj Node.js LTS.
+2. Uruchom RunAll.bat.
 
-```
-mini-blog/
-├── backend/
-│   ├── src/
-│   │   ├── app.js (Express server)
-│   │   ├── db.js (SQLite)
-│   │   ├── schema.sql
-│   │   └── routes/
-│   │       ├── articles.js
-│   │       └── comments.js
-│   ├── frontend/ ← Statyczne pliki (HTML/CSS/JS) dla Render
-│   │   ├── css/styles.css
-│   │   ├── js/app.js, article.js, logger.js, debug.js
-│   │   └── html/index.html, article.html, pages.html
-│   └── package.json
-├── docs/ ← Kopia dla GitHub Pages
-│   ├── index.html, article.html, pages.html
-│   ├── css/styles.css
-│   └── js/...
-├── RunAll.bat (uruchomienie lokalne)
-├── StopAll.bat (zatrzymanie)
-└── README.md
-```
+Aplikacja będzie dostępna pod: http://localhost:3000/
 
-## 🔧 Ręczne uruchomienie (jeśli potrzebne)
+## Tryby działania (ważne)
 
-### Backend (API)
+Projekt działa w 3 wariantach:
+- Render: backend serwuje frontend i udostępnia API.
+- GitHub Pages: statyczny frontend łączy się z API na Render.
+- Localhost: backend działa lokalnie.
+
+Żeby dane były zsynchronizowane między Pages/Render/Localhost, frontend na localhost domyślnie korzysta z API na Render.
+
+Jeśli chcesz wymusić lokalną bazę (oddzielne dane), ustaw w przeglądarce:
+- localStorage.setItem('api', 'local')
+
+Aby wrócić do synchronizacji z Render:
+- localStorage.removeItem('api')
+
+## Start ręczny (opcjonalnie)
+
+Backend:
 ```bash
 cd backend
 npm install
@@ -65,34 +58,42 @@ npm run dev
 ```
 
 Sprawdź:
-- `http://localhost:3000/health`
-- `http://localhost:3000/api/articles`
+- http://localhost:3000/health
+- http://localhost:3000/api/articles
 
-### Dostęp do frontendu
-- Backend automatycznie obsługuje `/` → zwraca `index.html`
-- API dostępne na `/api/*`
-- Statyczne pliki (`/css/*`, `/js/*`) obsługiwane przez `express.static()`
+## Startowa strona projektu
 
-## 🐛 Debug log
+Domyślna strona startowa to strona projektowa (pages):
+- Render/localhost: /pages
+- GitHub Pages: pages.html
 
-Dodaj `?debug=1` do adresu (aktywuje panel na dole):
-```
-http://localhost:3000/?debug=1
-http://localhost:3000/article?id=1&debug=1
-https://katyakkk33.github.io/mini-blog/?debug=1
-```
+Widok aplikacji (lista artykułów) jest dostępny pod:
+- /?app=1
 
-## 📝 Zmienne środowiska
+## Debug
 
-Backend aktualizuje się automatycznie dla obu dekomentów.
+Dodaj ?debug=1 do URL, aby włączyć panel logów:
+- http://localhost:3000/?app=1&debug=1
+- http://localhost:3000/article?id=1&debug=1
+- https://katyakkk33.github.io/mini-blog/?app=1&debug=1
 
-**Lokalne**: API URL na Render (hardcoded w JS)
-**GitHub Pages**: API URL na Render (hardcoded w JS w `/docs/`)
-**Render**: Obsługuje zarówno API jak i frontend
+## API (najważniejsze endpointy)
 
-## Linki (do uzupełnienia)
-- Działająca aplikacja: TODO
-- GitHub Pages: TODO
-- Repozytorium Git: TODO
-- Prezentacja PDF: TODO
-- Wideo: TODO
+Artykuły:
+- GET /api/articles
+- POST /api/articles
+- GET /api/articles/:id
+- DELETE /api/articles/:id
+
+Komentarze:
+- GET /api/articles/:id/comments
+- POST /api/articles/:id/comments
+- POST /api/comments/:commentId/replies
+- DELETE /api/comments/:commentId
+
+## Struktura projektu
+
+Najważniejsze katalogi:
+- backend/src — Express + SQLite + trasy API
+- backend/frontend — pliki statyczne serwowane przez backend (Render/localhost)
+- css, js oraz index.html/article.html/pages.html — statyczny frontend dla GitHub Pages

@@ -1,12 +1,21 @@
 /* frontend/js/app.js (for GitHub Pages) */
 // API URL:
 // - GitHub Pages: call Render API
-// - Localhost / Render: same-origin
+// - Localhost: call Render API (so it stays synced with Pages/Render)
+// - Render / other backend-hosted: same-origin
+// Escape hatch: set localStorage api=local to force local /api
 const API_URL = (function () {
   try {
     const host = location.hostname;
+    const forceLocal = localStorage.getItem('api') === 'local';
+    const isLocalhost = host === 'localhost' || host === '127.0.0.1';
     const isGitHubPages = host === 'katyakkk33.github.io';
-    return isGitHubPages ? 'https://mini-blog-d103.onrender.com/api' : '/api';
+    const isRender = host.endsWith('.onrender.com');
+
+    if (forceLocal) return '/api';
+    if (isGitHubPages || isLocalhost) return 'https://mini-blog-d103.onrender.com/api';
+    if (isRender) return '/api';
+    return '/api';
   } catch (e) {
     return '/api';
   }
