@@ -27,10 +27,20 @@ app.get("/", (req, res) => res.sendFile(path.join(htmlDir, "index.html")));
 app.get("/article", (req, res) => res.sendFile(path.join(htmlDir, "article.html")));
 app.get("/pages", (req, res) => res.sendFile(path.join(htmlDir, "pages.html")));
 
+// Back-compat for older frontend links that used *.html paths
+app.get("/index.html", (req, res) => res.sendFile(path.join(htmlDir, "index.html")));
+app.get("/article.html", (req, res) => res.sendFile(path.join(htmlDir, "article.html")));
+app.get("/pages.html", (req, res) => res.sendFile(path.join(htmlDir, "pages.html")));
+
 // Same HTML routes under /mini-blog
 app.get("/mini-blog/", (req, res) => res.sendFile(path.join(htmlDir, "index.html")));
 app.get("/mini-blog/article", (req, res) => res.sendFile(path.join(htmlDir, "article.html")));
 app.get("/mini-blog/pages", (req, res) => res.sendFile(path.join(htmlDir, "pages.html")));
+
+// Back-compat under /mini-blog as well
+app.get("/mini-blog/index.html", (req, res) => res.sendFile(path.join(htmlDir, "index.html")));
+app.get("/mini-blog/article.html", (req, res) => res.sendFile(path.join(htmlDir, "article.html")));
+app.get("/mini-blog/pages.html", (req, res) => res.sendFile(path.join(htmlDir, "pages.html")));
 
 // Request logger
 app.use((req, res, next) => {
