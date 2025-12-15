@@ -64,26 +64,39 @@ r.post("/comments/:commentId/replies", (req, res) => {
   ).run(parent.article_id, parentId, author.trim(), content.trim());
 
   res.status(201).json({ id: info.lastInsertRowid });
-  });
+});
 
-  r.delete("/comments/:commentId", (req, res) => {
-    const commentId = Number(req.params.commentId);
+function deleteCommentById(commentId, res) {
+  const id = Number(commentId);
+  if (!Number.isInteger(id) || id <= 0) {
+    return res.status(400).json({ error: "invalid comment id" });
+  }
 
-    const comment = db.prepare(
-      "SELECT id, parent_comment_id FROM comments WHERE id = ?"
-    ).get(commentId);
+  const comment = db
+    .prepare("SELECT id, parent_comment_id FROM comments WHERE id = ?")
+    .get(id);
 
-    if (!comment) {
-      return res.status(404).json({ error: "comment not found" });
-    }
+  if (!comment) {
+    return res.status(404).json({ error: "comment not found" });
+  }
 
-    // Delete all replies to this comment (if any)
-    db.prepare("DELETE FROM comments WHERE parent_comment_id = ?").run(commentId);
+  // Delete all replies to this comment (if any)
+  db.prepare("DELETE FROM comments WHERE parent_comment_id = ?").run(id);
 
-    // Delete the comment itself
-    db.prepare("DELETE FROM comments WHERE id = ?").run(commentId);
+  // Delete the comment itself
+  db.prepare("DELETE FROM comments WHERE id = ?").run(id);
 
-    res.json({ success: true });
-  });
+  return res.json({ success: true });
+}
 
-  export default r;
+// Delete comment (and its replies)
+r.delete("/comments/:commentId", (req, res) => {
+  return deleteCommentById(req.params.commentId, res);
+});
+
+// Alias: support nested URL variant
+r.delete("/articles/:id/comments/:commentId", (req, res) => {
+  return deleteCommentById(req.params.commentId, res);
+});
+
+export default r;
