@@ -2,6 +2,8 @@
 
 Backend udostępnia REST API oraz serwuje statyczny frontend z katalogu backend/frontend.
 
+Wideo (prezentacja): https://youtu.be/p7LUkmXEBh8
+
 ## Uruchomienie
 
 ```bash
