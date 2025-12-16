@@ -2,6 +2,7 @@
 
 Backend udostępnia REST API oraz serwuje statyczny frontend z katalogu backend/frontend.
 
+Prezentacja: https://gamma.app/docs/Projekt-Zaliczeniowy-Mini-Blog-mejdjuev500c52h
 Wideo (prezentacja): https://youtu.be/p7LUkmXEBh8
 
 ## Uruchomienie

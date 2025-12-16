@@ -13,6 +13,7 @@ Mini‑blog to prosta aplikacja webowa (frontend + backend), która umożliwia:
 
 - Render (pełna aplikacja + API): https://mini-blog-d103.onrender.com/
 - GitHub Pages (frontend statyczny): https://katyakkk33.github.io/mini-blog/
+- Prezentacja: https://gamma.app/docs/Projekt-Zaliczeniowy-Mini-Blog-mejdjuev500c52h
 - Wideo (prezentacja): https://youtu.be/p7LUkmXEBh8
 
 Uwaga: GitHub Pages jest statyczny i komunikuje się z API na Render.
