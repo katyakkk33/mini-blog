@@ -3,7 +3,7 @@
 Backend udostępnia REST API oraz serwuje statyczny frontend z katalogu backend/frontend.
 
 Repozytorium: https://github.com/katyakkk33/mini-blog
-Prezentacja PDF: https://gamma.app/docs/Projekt-Zaliczeniowy-Mini-Blog-mejdjuev500c52h
+Prezentacja PDF: https://katyakkk33.github.io/mini-blog/docs/Projekt-Zaliczeniowy-Mini-Blog.pdf
 Wideo (prezentacja): https://youtu.be/p7LUkmXEBh8
 
 Dokumentacja:
